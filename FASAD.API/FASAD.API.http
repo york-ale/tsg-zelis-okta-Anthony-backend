@@ -1,0 +1,6 @@
+@FASAD.API_HostAddress = http://localhost:5132
+
+GET {{FASAD.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

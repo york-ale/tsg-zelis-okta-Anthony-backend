@@ -1,1 +1,5 @@
 FASAD.API/appsettings.json
+FASAD.API/bin
+FASAD.API/obj
+FASAD.API.Tests/bin
+FASAD.API.Tests/obj

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Moq;
 using Xunit;
 
-public class QueriesTests
+public class QueriesUnitTests
 {
     [Fact]
     public async Task GetUsers_ReturnsMappedUserDtos()
@@ -38,7 +38,9 @@ public class QueriesTests
             }
         };
 
-        mockUserService.Setup(s => s.GetUsers()).ReturnsAsync(users);
+        mockUserService
+            .Setup(s => s.GetUsers())
+            .ReturnsAsync(users);
 
         var queries = new Queries();
 
@@ -74,7 +76,9 @@ public class QueriesTests
             }
         };
 
-        mockRoleService.Setup(s => s.GetRoles()).ReturnsAsync(roles);
+        mockRoleService
+            .Setup(s => s.GetRoles())
+            .ReturnsAsync(roles);
 
         var queries = new Queries();
 
@@ -132,7 +136,9 @@ public class QueriesTests
             }
         };
 
-        mockAuditService.Setup(s => s.GetSecurityEvents()).ReturnsAsync(securityEvents);
+        mockAuditService
+            .Setup(s => s.GetSecurityEvents())
+            .ReturnsAsync(securityEvents);
 
         var queries = new Queries();
 

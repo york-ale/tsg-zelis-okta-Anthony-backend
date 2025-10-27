@@ -1,3 +1,6 @@
+using HotChocolate.Authorization;
+
+[Authorize]
 public class Queries
 {
     public async Task<IEnumerable<UserDto>> GetUsers([Service] IUserService userService)

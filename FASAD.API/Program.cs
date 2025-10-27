@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +10,28 @@ builder.Services
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
 
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration.GetValue<string>("Okta:Authority");
+        options.Audience = builder.Configuration.GetValue<string>("Okta:Audience");
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true
+        };
+    });
+
+builder.Services.AddAuthorization();
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IAuditService, AuditService>();
 
 builder.Services
     .AddGraphQLServer()
+    .AddAuthorization()
     .AddQueryType<Queries>()
     .AddMutationType(descriptor =>
     {
@@ -28,6 +46,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGraphQL();
 

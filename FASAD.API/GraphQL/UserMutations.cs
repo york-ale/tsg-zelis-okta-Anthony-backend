@@ -1,3 +1,5 @@
+using HotChocolate.Authorization;
+
 [ExtendObjectType("Mutations")]
 public class UserMutations
 {
@@ -8,6 +10,7 @@ public class UserMutations
         return true;
     }
 
+    [Authorize]
     public async Task<bool> AssignUserRole(string email, string roleName, [Service] IUserService userService)
     {
         await userService.AssignUserRole(email, roleName);
